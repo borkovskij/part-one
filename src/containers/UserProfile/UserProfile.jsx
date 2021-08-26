@@ -16,33 +16,28 @@ class UserProfile extends React.Component {
 		handleSubmit: P.func.isRequired,
 		isLoading: P.bool.isRequired,
 		user: userType,
-    error: P.bool.isRequired,
+		error: P.bool.isRequired,
 	};
 
 	componentDidMount() {
 		this.props.fetchUserData(Number(this.props.match.params.userId));
 	}
 	render() {
+		const { isLoading, user, handleSubmit, error } = this.props;
 
-    const {isLoading, user, handleSubmit, error} = this.props;
+		if (error) {
+			return <Error />;
+		}
 
-    if (error) {
-      return <Error/>
-    }
-
-    if (!Object.keys(user).length) {
+		if (user === null) {
 			return isLoading ? <LoadingScreen /> : null;
 		}
 
 		return (
-    <>
-      {
-        (isLoading)
-        ? <LoadingScreen />
-        : <EditableProfile user={user} onSave={handleSubmit} />
-      }
-    </>
-    );
+			<React.Fragment>
+				{isLoading ? <LoadingScreen /> : <EditableProfile user={user} onSave={handleSubmit} />}
+			</React.Fragment>
+		);
 	}
 }
 

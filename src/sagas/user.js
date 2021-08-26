@@ -1,6 +1,6 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { fetchUserDataFail, fetchUserSuccess, updateUserFail, updateUserSuccess } from '../actionCreators/user';
-import { FETCH_USER_PENDING, NAVIGATE_HOME, UPDATE_USER_PENDING } from '../actions/user';
+import { FETCH_USER_PENDING, NAVIGATE_HOME, UPDATE_USER_PENDING } from '../actions';
 import { ROUTES } from '../constants';
 import { getUserData, updateUserData } from '../services/user';
 import { history } from '../store';
@@ -9,7 +9,7 @@ const getUsersList = (state) => state.users.users;
 
 function* getUser({ payload }) {
 	const usersList = yield select(getUsersList);
-	if (usersList.length) {
+	if (usersList !== null) {
 		const { userId } = payload;
 		try {
 			const data = yield call(getUserData, userId);

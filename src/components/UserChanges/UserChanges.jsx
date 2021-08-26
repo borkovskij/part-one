@@ -17,14 +17,16 @@ class UserChanges extends React.Component {
 	};
 
 	componentDidMount() {
-		if (!Object.keys(this.props.user).length) {
+		if (this.props.user === null) {
 			this.props.navigateToUsersList();
 		}
 	}
 
 	renderChange = () => {
 		const { user, updatedUser } = this.props;
-
+		if (updatedUser === null) {
+			return null;
+		}
 		return Object.keys(updatedUser).map((key) => {
 			return user[key] && user[key] !== updatedUser[key] ? (
 				<ChangesContainer key={key}>
@@ -42,7 +44,7 @@ class UserChanges extends React.Component {
 			<Container>
 				<Title>Updates: </Title>
 				{this.renderChange()}
-				<Text>Updated at: {updatedUser.updatedAt}</Text>
+				<Text>Updated at: {updatedUser && updatedUser.updatedAt}</Text>
 				<Button onClick={navigateToUsersList} text="Home" />
 			</Container>
 		);
